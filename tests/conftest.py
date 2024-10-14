@@ -8,16 +8,23 @@ from playwright.sync_api import sync_playwright
 from objects.page_objects.home_page import HomePage
 
 
-def pytest_exception_interact(node, report):
-    if report.failed:
-        page = getattr(node.instance, 'page', None)
+@pytest.hookimpl(tryfirst=True, hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    report = outcome.get_result()
+
+    if report.when == "call" and report.failed:
+        page = item.funcargs.get("page", None)
         if page:
-            screenshot_bytes = page.screenshot()
-            allure.attach(
-                screenshot_bytes,
-                name="Screenshot on Failure",
-                attachment_type=allure.attachment_type.PNG
-            )
+            try:
+                screenshot_bytes = page.screenshot()
+                allure.attach(
+                    screenshot_bytes,
+                    name="Screenshot on Failure",
+                    attachment_type=allure.attachment_type.PNG
+                )
+            except Exception as e:
+                print(f"Failed to take screenshot: {e}")
 
 
 @pytest.fixture(scope="session", autouse=True)
