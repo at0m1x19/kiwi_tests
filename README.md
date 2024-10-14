@@ -14,7 +14,7 @@ The tests include both regular tests and BDD tests using Gherkin syntax.
 
 ### Prerequisites
 
-- **Python 3.10+**: Ensure that Python is installed on your system.
+- **Python 3.11+**: Ensure that Python is installed on your system.
 
 ### 1. Install Dependencies
 

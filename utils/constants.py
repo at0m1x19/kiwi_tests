@@ -1,14 +1,14 @@
-from enum import Enum
+from enum import Enum, StrEnum
 
 
-class SearchFormType(str, Enum):
+class SearchFormType(StrEnum):
     RETURN = 'return'
     ONE_WAY = 'oneWay'
     MULTI_CITY = 'multicity'
     NOMAD = 'nomad'
 
 
-class Airport(Enum):
+class Airport(StrEnum):
     RTM = 'Rotterdam'
     MAD = 'Madrid'
 
