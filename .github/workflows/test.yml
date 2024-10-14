@@ -53,6 +53,7 @@ jobs:
         xvfb-run -a pytest --alluredir=allure-results
 
     - name: Upload Allure Results
+      if: always()
       uses: actions/upload-artifact@v3
       with:
         name: allure-results
