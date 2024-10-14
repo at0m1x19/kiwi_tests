@@ -28,11 +28,9 @@ To install all necessary Python dependencies:
    source .venv/bin/activate  # On Windows: .venv\Scripts\activate
    ```
    
-### 3. Running Tests
+### 2. Running Tests
 
-#### Run All Tests
-
-To run all tests in the suite (both regular and Gherkin tests):
+Run All Tests:
 
 ```bash
 pytest
@@ -67,3 +65,28 @@ Viewing Allure Reports:
 ```bash
 allure serve allure-results
 ```
+
+### Running Tests with GitHub Actions
+
+This repository is set up to automatically run Playwright tests using GitHub Actions on every push or pull request to the `main` branch. Follow the steps below to use it:
+
+1. **Triggering Tests**:
+   - Tests are automatically triggered on every push or pull request to the `main` branch.
+   - If you want to manually trigger the workflow, you can navigate to the **Actions** tab on GitHub, select the `Run Playwright Tests` workflow, and click the **Run workflow** button.
+
+2. **Viewing Test Results**:
+   - After the tests complete, the results are stored as an artifact in GitHub Actions.
+   - You can download the artifact by navigating to the **Actions** tab, selecting the specific workflow run, and downloading the `allure-results` artifact.
+
+3. **Generating Allure Reports Locally**:
+   - Once you've downloaded the `allure-results` artifact, you can generate the Allure report locally by running:
+     ```bash
+     allure serve allure-results
+     ```
+
+4. **Configuration**:
+   - The GitHub Actions workflow uses environment variables defined in the workflow file:
+     - `BASE_URL`: The URL of the website to test (default: `https://kiwi.com`).
+     - `HEADLESS`: Whether to run the browser in headless mode (`true` or `false`).
+
+   If you need to modify these variables, you can edit the `.github/workflows/test.yml` file in the repository.
