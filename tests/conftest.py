@@ -9,7 +9,7 @@ from objects.page_objects.home_page import HomePage
 
 
 @pytest.hookimpl(tryfirst=True, hookwrapper=True)
-def pytest_runtest_makereport(item, call):
+def pytest_runtest_makereport(item):
     outcome = yield
     report = outcome.get_result()
 
