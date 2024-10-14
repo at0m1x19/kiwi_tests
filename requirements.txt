@@ -1,0 +1,8 @@
+pytest==8.3.3
+playwright==1.47.0
+python-dotenv==1.0.1
+pytest-playwright==0.5.2
+pytest-bdd==7.3.0
+allure-pytest==2.13.5
+allure-python-commons==2.13.5
+

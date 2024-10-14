@@ -1,0 +1,59 @@
+name: Run Playwright Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    services:
+      xvfb:
+        image: selenium/standalone-chrome
+        options: --shm-size 2g
+        ports:
+          - 4444:4444
+
+    strategy:
+      matrix:
+        browser: [chromium]
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.12'
+
+    - name: Install dependencies
+      run: |
+        python -m venv .venv
+        source .venv/bin/activate
+        pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Install Playwright
+      run: |
+        source .venv/bin/activate
+        playwright install ${{ matrix.browser }}
+
+    - name: Run Playwright Tests
+      env:
+        BASE_URL: 'https://kiwi.com'
+        HEADLESS: 'false'
+      run: |
+        source .venv/bin/activate
+        xvfb-run -a pytest --alluredir=allure-results
+
+    - name: Upload Allure Results
+      uses: actions/upload-artifact@v3
+      with:
+        name: allure-results
+        path: allure-results
